@@ -1,0 +1,6 @@
+instance:
+  instance-id: payment8001
+  # 访问路径可以显示ip地址
+  prefer-ip-address: true
+server:
+  port: 8001

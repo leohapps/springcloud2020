@@ -5,9 +5,9 @@
 
 package com.sohu.cms.springcloud.cloud.provider.payment8001.api;
 
-import com.sohu.cms.springcloud.cloudcommon.entity.Payment;
 import com.sohu.cms.springcloud.cloud.provider.payment8001.service.PaymentService;
 import com.sohu.cms.springcloud.cloudcommon.entity.CommonResult;
+import com.sohu.cms.springcloud.cloudcommon.entity.Payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +43,31 @@ public class PaymentController {
         Payment payment = paymentService.getPaymentById(id);
         return payment != null?   new CommonResult<>(200, "查询成功", port, payment)
                 :new CommonResult<>(404, "未找到");
+    }
+
+    @GetMapping(value = "/payment/feign/timeout")
+    public String feignTimeOutTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return port;
+    }
+
+    @GetMapping(value = "/payment/hystrix/ok/{id}")
+    public String testOk(@PathVariable("id") Long id) {
+        return paymentService.testOk(id);
+    }
+
+    @GetMapping(value = "/payment/hystrix/timeout/{id}")
+    public String testTimeout(@PathVariable("id") Long id) {
+        return paymentService.testTimeout(id);
+    }
+
+    @GetMapping(value = "/payment/hystrix/circuit/{id}")
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id) {
+        return paymentService.paymentCircuitBreaker(id);
     }
 
 }

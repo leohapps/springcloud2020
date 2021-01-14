@@ -14,3 +14,14 @@ eureka:
       defaultZone: http://peer1:1111/eureka/,http://peer2:1113/eureka/
 
 
+# feign 底层依赖ribbon，由ribbon控制超时设置
+ribbon:
+  ReadTimeout: 1000
+  ConnectTimeout: 1000
+logging:
+  level:
+    com.sohu.cms.springcloud.cloud.consumer.order80.service: DEBUG
+# 打开断路器开关
+feign:
+  hystrix:
+    enabled: true

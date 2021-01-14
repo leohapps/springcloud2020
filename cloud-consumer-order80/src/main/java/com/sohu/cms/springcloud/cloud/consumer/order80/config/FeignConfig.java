@@ -5,23 +5,22 @@
 
 package com.sohu.cms.springcloud.cloud.consumer.order80.config;
 
+import feign.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author xiaoliu208902
  * @version V1.0
- * @className com.sohu.cms.springcloud.cloud.consumer.order80.config.RestConfig
+ * @className com.sohu.cms.springcloud.cloud.consumer.order80.config.FeignConfig
  * @description
- * @date 2020/12/31 4:33 下午
+ * @date 2021/1/5 4:33 下午
  */
 @Configuration
-public class RestConfig {
+public class FeignConfig {
 
     @Bean
-   // @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
 }

@@ -28,4 +28,5 @@ public class PlanLeague {
     private Long orderCnt;
     private Long oriPayment;
     private Long actPayment;
+    private Long matchCount;
 }

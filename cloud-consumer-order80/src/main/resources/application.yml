@@ -25,3 +25,13 @@ logging:
 feign:
   hystrix:
     enabled: true
+  okhttp:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+        # 指定拦截器，特殊处理post请求直接挂在url导致URI-TOO large问题
+        requestInterceptors: com.sohu.lottery.interceptor.RequestInterceptor

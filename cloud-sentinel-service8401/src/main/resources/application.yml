@@ -1,0 +1,33 @@
+server:
+  port: 8401
+# sentinel dashboard 监控界面刚开始是空的，这是因为sentinel lazy-load机制，当执行一次接口访问时，监控平台才有监控信息
+spring:
+  application:
+    name: cloud-sentinel-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            data-id: ${spring.application.name}
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
+
+
+feign:
+  sentinel:
+    enabled: true

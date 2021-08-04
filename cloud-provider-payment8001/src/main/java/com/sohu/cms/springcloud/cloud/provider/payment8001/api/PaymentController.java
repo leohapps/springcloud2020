@@ -5,6 +5,7 @@
 
 package com.sohu.cms.springcloud.cloud.provider.payment8001.api;
 
+import ch.qos.logback.core.util.TimeUtil;
 import com.sohu.cms.springcloud.cloud.provider.payment8001.service.PaymentService;
 import com.sohu.cms.springcloud.cloudcommon.entity.CommonResult;
 import com.sohu.cms.springcloud.cloudcommon.entity.Payment;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author xiaoliu208902
@@ -55,6 +58,22 @@ public class PaymentController {
         return port;
     }
 
+    @PostMapping(value = "/payment/feign/timeout")
+    public CommonResult<Payment> submintPayment(@RequestParam String plan
+                                                , @RequestParam String content
+                                                , @RequestParam String title) {
+        log.info("the plan {}", plan);
+        log.info("the content {}", content);
+        log.info("the title {}", title);
+        Payment payment = paymentService.getPaymentById(31L);
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new CommonResult<>(200, "查询成功", port, payment);
+    }
+
     @GetMapping(value = "/payment/hystrix/ok/{id}")
     public String testOk(@PathVariable("id") Long id) {
         return paymentService.testOk(id);
@@ -69,5 +88,6 @@ public class PaymentController {
     public String paymentCircuitBreaker(@PathVariable("id") Integer id) {
         return paymentService.paymentCircuitBreaker(id);
     }
+
 
 }

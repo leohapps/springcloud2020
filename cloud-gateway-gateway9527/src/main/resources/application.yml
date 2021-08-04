@@ -1,0 +1,27 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+
+
+  cloud:
+    gateway:
+      routes:
+        - id: payment_routh
+          uri: http://localhost:8001
+          predicates:
+            - Path=/payment/get/**
+        - id: payment_routh2
+          uri: http://localhost:8001
+          predicates:
+            - Path=/payment/feign/**
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://peer1:1111/eureka/,http://peer2:1113/eureka/

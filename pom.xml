@@ -18,6 +18,9 @@
         <module>cloud-provider-payment-zk8004</module>
         <module>cloud-zk-consumer</module>
         <module>cloud-zk-provider</module>
+        <module>cloud-gateway-gateway9527</module>
+        <module>cloud-es-service</module>
+        <module>cloud-sentinel-service8401</module>
     </modules>
 
     <properties>

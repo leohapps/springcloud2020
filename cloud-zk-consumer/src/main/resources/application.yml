@@ -1,0 +1,30 @@
+server:
+  port: 38992
+# 应用名称
+spring:
+  application:
+    name: cloud-zk-consumer
+
+#  cloud:
+#    zookeeper:
+#      connect-string: localhost:2181
+
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    protocol: zookeeper
+    address: 10.18.4.21:2181,10.18.4.22:2181,10.18.4.23:2181
+    group: dubbo-commodity # 协议组 指定
+  monitor:
+    protocol: registry
+  application:
+    name: cloud-zk-consumer
+  consumer:
+    # 不使用启动就绪检查
+    check: false
+    timeout: 3000
+    # 核心服务 不使用重试
+    retries: 0

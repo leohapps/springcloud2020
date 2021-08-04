@@ -5,19 +5,13 @@
 
 package com.sohu.cms.springcloud.cloud.provider.payment8001;
 
-import cn.hutool.Hutool;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
-import com.sohu.cms.springcloud.cloudcommon.entity.Payment;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.asn1.ocsp.ResponseData;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +32,7 @@ public class MainTest {
 
     public static final String PLAN_LEAGUE_FILE = "/Users/leo/Desktop/league.xlsx";
 
-    public static final String OUT_FILE = "/Users/leo/Desktop/league.csv";
+    public static final String OUT_FILE = "/Users/leo/Desktop/league1.csv";
 
     public static void main(String[] args) {
         processInfo();
@@ -61,21 +55,25 @@ public class MainTest {
                     .mapToLong(PlanPayment::getOriPrice).sum();
             long actSum = v.stream().map(planLeague -> paymentMap.get(planLeague.getSpuid()))
                     .mapToLong(PlanPayment::getActPrice).sum();
+            long matchCount = v.stream().map(PlanLeague::getMatchId)
+                    .distinct().count();
             PlanLeague build = PlanLeague.builder()
                     .leagueId(v.get(0).getLeagueId())
                     .leagueName(k)
                     .actPayment(actSum)
                     .oriPayment(oriSum)
                     .orderCnt(orderCnt)
+                    .matchCount(matchCount)
                     .build();
             planLeagues.add(build);
         });
 
-        String outStr = "leagueName,leagueId,orderCnt,oriPayment,actPayment\r\n";
+        String outStr = "leagueName,leagueId,orderCnt,oriPayment,actPayment,matchCnt\r\n";
         File file = FileUtil.appendUtf8String(outStr, OUT_FILE);
         for (PlanLeague planLeague : planLeagues) {
-            String line = String.format("%s,%s,%s,%s,%s\r\n", planLeague.getLeagueName(),
-                    planLeague.getLeagueId(), planLeague.getOrderCnt(), planLeague.getOriPayment(), planLeague.getActPayment());
+            String line = String.format("%s,%s,%s,%s,%s,%s\r\n", planLeague.getLeagueName(),
+                    planLeague.getLeagueId(), planLeague.getOrderCnt(), planLeague.getOriPayment()
+                    , planLeague.getActPayment(),planLeague.getMatchCount());
             FileUtil.appendUtf8String(line, file);
         }
     }

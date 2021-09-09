@@ -21,6 +21,7 @@
         <module>cloud-gateway-gateway9527</module>
         <module>cloud-es-service</module>
         <module>cloud-sentinel-service8401</module>
+        <module>cloud-redis</module>
     </modules>
 
     <properties>

@@ -1,0 +1,7 @@
+panther:
+  redis:
+    cluster:
+      enable: true
+      max-redirects: 5
+      url: https://panther.sohurdc.com/api/redis/cluster/release?uid=20661
+      password: 6bc1ef164709472db5ba7c59b731a7fd
